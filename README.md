@@ -3,6 +3,8 @@ A functioning harbor crane from the GTA story mission Scouting the Port.
 
 Do note that this is a work in progress. There are some features that will hopefully get updated with the help of the FiveM community.
 
+FiveM forum post: https://forum.cfx.re/t/harbor-crane/1169287
+
 # Controls
 **/usecrane** - Enter/Exit the crane, use the command when standing outside the cabin near the ladder.<br>
 **W** - Moves the lifter/spreader up.<br>
