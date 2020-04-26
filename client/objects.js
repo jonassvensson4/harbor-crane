@@ -341,8 +341,11 @@ function placeContainers() {
     }
 }
 
-placeCrane();
-// Wait a couple of seconds before spawning in the containers, a ladder on the crane seems to break if it's spawning in the containers too quickly
-setTimeout(() => {
-    placeContainers();
-}, 4000);
+emitNet('harbor-crane:spawn');
+onNet('harbor-crane:createObjects', () => {
+    placeCrane();
+    // Wait a couple of seconds before spawning in the containers, a ladder on the crane seems to break if it's spawning in the containers too quickly
+    setTimeout(() => {
+        placeContainers();
+    }, 4000);
+});

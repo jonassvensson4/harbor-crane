@@ -6,3 +6,5 @@ client_scripts {
     'client/objects.js',
     'client/main.js'
 }
+
+server_script 'server/server.js';

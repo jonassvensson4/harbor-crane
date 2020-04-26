@@ -497,13 +497,13 @@ RegisterCommand('usecrane', () => {
 });
 
 // Used in development
-setTick(() => {
-    // Remove all the created objects by pressing E
-    if ( IsControlJustReleased(1, 38) ) {
-        Object.keys( createdObjects ).forEach(type => {
-            DeleteObject(createdObjects[type]);
-        });
-        RopeUnloadTextures()
-	    DeleteRope(createdObjects['rope']);
-    }
-});
+// setTick(() => {
+//     // Remove all the created objects by pressing E
+//     if ( IsControlJustReleased(1, 38) ) {
+//         Object.keys( createdObjects ).forEach(type => {
+//             DeleteObject(createdObjects[type]);
+//         });
+//         RopeUnloadTextures()
+// 	    DeleteRope(createdObjects['rope']);
+//     }
+// });
