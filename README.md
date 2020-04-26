@@ -12,3 +12,7 @@ Do note that this is a work in progress. There are some features that will hopef
 **Arrow up** - Moves the cabin forward.<br>
 **Arrow down** - Moves the cabin backwards.<br>
 **Enter** - Attach/Detach container.<br>
+**1** - Reset camera<br>
+**2** - Camera from above<br>
+**3** - Camera from the left side<br>
+**4** - Camera from the right side<br>

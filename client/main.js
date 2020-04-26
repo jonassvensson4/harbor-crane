@@ -246,7 +246,6 @@ class Crane {
             let closestContainer = GetClosestObjectOfType(coords[0], coords[1], zValue, 1.5, model);
 
             if ( closestContainer && this.container != closestContainer ) {
-                console.log(GetEntityCoords(closestContainer)[2])
                 zValue = GetEntityCoords(closestContainer)[2] + 2.8;
             }
         });
@@ -446,10 +445,6 @@ RegisterCommand('usecrane', () => {
         usingCrane = true;
 
         if ( distance < 2.2 ) {
-            if ( !DoesCamExist(cam) ) {
-                cam = CreateCam('DEFAULT_ANIMATED_CAMERA', true);
-            }
-
             // Enter animation scene
             scene = CreateSynchronizedScene(-0.1, -0.1, -0.35, 0, 0, 0, 2);
             AttachSynchronizedSceneToEntity(scene, createdObjects['cabin'], -1);
