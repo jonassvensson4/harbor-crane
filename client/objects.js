@@ -1,85 +1,100 @@
 // All the objects that the crane uses, including the containers which it can pick up
-const objects = {
+ objects = {
     'frame': {
         model: 'prop_dock_rtg_ld',
-        coords: { x: -47.290, y: -2415.690, z: 5.18 }
+        coords: { x: 28.51, y: 6274.63, z: 30.33, },     //I change the coords
+        heading: 30.0                                   // I add this line.Its the heading of the base estructure of the crane
     },
     'cabin': {
         model: 'p_dock_rtg_ld_cab',
         position: { x: -0.1, y: 0.0, z: 18.0 },
+        rotation: { x: 0.0, y: 0.0, z: 30.0 },          // I add this line for the heading of the cabin. Always has to be the same heading of the "frame".    
         attachTo: 'frame'
     },
     'lifter-cables1': {
         model: 'p_dock_crane_cabl_s',
-        position: { x: 0.1, y: 1.0, z: -5.5 },
-        rotation: { x: 0.0, y: 0.0, z: 90.0 },
+        position: { x: 0.1, y: -0.0, z: -5.5 },
+        rotation: { x: 0.0, y: 0.0, z: 120.0 },         // I add this line for the heading of the lifter-cables1. Always has to be 90.0 more than the heading of the "frame".   
         attachTo: 'cabin'
     },
     'lifter-cables2': {
         model: 'p_dock_crane_cabl_s',
         position: { x: 0.0, y: 0.0, z: 0.0 },
-        rotation: { x: 0.0, y: 0.0, z: 90.0 },
+        rotation: { x: 0.0, y: 0.0, z: 120.0 },        // I add this line for the heading of the lifter-cables2. Always has to be 90.0 more than the heading of the "frame".
         attachTo: 'lifter-cables1'
     },
     'lifter-cables3': {
         model: 'p_dock_crane_cabl_s',
         position: { x: 0.0, y: 0.0, z: 0.0 },
-        rotation: { x: 0.0, y: 0.0, z: 90.0 },
+        rotation: { x: 0.0, y: 0.0, z: 120.0 },         // I add this line for the heading of the lifter-cables3. Always has to be 90.0 more than the heading of the "frame".
         attachTo: 'lifter-cables2'
     },
     'lifter-cables4': {
         model: 'p_dock_crane_cabl_s',
         position: { x: 0.0, y: 0.0, z: 0.0 },
-        rotation: { x: 0.0, y: 0.0, z: 90.0 },
+        rotation: { x: 0.0, y: 0.0, z: 120.0 },          // I add this line for the heading of the lifter-cables4. Always has to be 90.0 more than the heading of the "frame". 
         attachTo: 'lifter-cables3'
     },
     'lifter-cables5': {
         model: 'p_dock_crane_cabl_s',
         position: { x: 0.0, y: 0.0, z: 0.0 },
-        rotation: { x: 0.0, y: 0.0, z: 90.0 },
+        rotation: { x: 0.0, y: 0.0, z: 120.0 },          // I add this line for the heading of the lifter-cables5. Always has to be 90.0 more than the heading of the "frame". 
         attachTo: 'lifter-cables4'
     },
     'lifter-cables6': {
         model: 'p_dock_crane_cabl_s',
         position: { x: 0.0, y: 0.0, z: 0.0 },
-        rotation: { x: 0.0, y: 0.0, z: 90.0 },
+        rotation: { x: 0.0, y: 0.0, z: 120.0 },         // I add this line for the heading of the lifter-cables6. Always has to be 90.0 more than the heading of the "frame". 
         attachTo: 'lifter-cables5'
     },
     'lifter': {
         model: 'p_dock_crane_sld_s',
         position: { x: 0.0, y: 0.0, z: 1.3 },
-        rotation: { x: 0.0, y: 0.0, z: 90.0 },
+        rotation: { x: 0.0, y: 0.0, z: 120.0 },        // I add this line for the heading of the lifter. Always has to be 90.0 more than the heading of the "frame". 
         attachTo: 'lifter-cables6'
     },
-    'wheel': {
+    'wheel': {                                        //HERE I CANT DO A HEADING FOR THE WHEELS, I TRY A LOT OF SHIT BUT ITS NOW WORKING
         model: 'p_dock_rtg_ld_wheel',
         positions: {
             leftFront: {
-                2: { x: -5, y: -9.02, z: 0.65 },
-                1: { x: -3.58, y: -9.02, z: 0.65 }
+                2: { x: -5, y: -9.02, z: -2.65 },
+                1: { x: -3.58, y: -9.02, z: -2.65 }       
+                
             },
+
             leftBack: {
-                2: { x: 3.3, y: -9.02, z: 0.65 },
-                1: { x: 4.7, y: -9.02, z: 0.65 }
+                2: { x: 3.3, y: -9.02, z: -2.65 },
+                1: { x: 4.7, y: -9.02, z: -2.65 }       
             },
             rightFront: {
-                2: { x: -5, y: 9.46, z: 0.65 },
-                1: { x: -3.58, y: 9.46, z: 0.65 }
+                2: { x: -5, y: 9.46, z: -2.65 },
+                1: { x: -3.58, y: 9.46, z: -2.65 }       
             },
             rightBack: {
-                2: { x: 3.3, y: 9.46, z: 0.65 },
-                1: { x: 4.7, y: 9.46, z: 0.65 }
+                2: { x: 3.3, y: 9.46, z: -2.65 },
+                1: { x: 4.7, y: 9.46, z: -2.65 }         
             }
         },
+        
         attachTo: 'frame'
     },
+
+    
     'containers': {
         'container-red': {
             model: 'prop_container_01a'
         },
         'container-bilgeco-blue': {
             model: 'prop_container_01c'
+            
         },
+
+        'container-car': {                                     // I add this container for the vehicle but im no sure that its doing something hahaha
+            model: GetHashKey('car')
+            
+        },
+
+
         'container-jetsam': {
             model: 'prop_container_01d'
         },
@@ -240,7 +255,7 @@ function placeContainers() {
     // Coordinates where the containers can spawn at
     const containerSpawn = {
         x: [ -52.990, -66.80324, -80.80324, -94.80324 ],
-        y: [ -2420.99, -2418.29, -2415.59, -2412.92, -2410.22, ],
+        y: [ -2420.99, -2418.29, -2415.59, -2412.92, -2410.22 ],
         z: [ 5, 7.82, 10.64 ],
         heading: 90.0
     }
@@ -347,5 +362,5 @@ onNet('harbor-crane:createObjects', () => {
     // Wait a couple of seconds before spawning in the containers, a ladder on the crane seems to break if it's spawning in the containers too quickly
     setTimeout(() => {
         placeContainers();
-    }, 4000);
+    }, 8000);
 });
