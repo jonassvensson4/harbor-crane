@@ -57,7 +57,7 @@ class Crane {
             }
 
             objects[cable].position.z = objects[cable].position.z - 0.06;
-            AttachEntityToEntity(createdObjects[cable], createdObjects[`lifter-cables${ currentCable - 1 }`], 0, 0.0, 0.0, objects[cable].position.z, 0.0, 0.0, 90.0, false, false, true, false, 0, false);
+            AttachEntityToEntity(createdObjects[cable], createdObjects[`lifter-cables${ currentCable - 1 }`], 0, 0.0, 0.0, objects[cable].position.z, 0.0, 0.0, 120.0, false, false, true, false, 0, false);
         } else {
             if ( currentCable != 6 ) {
                 currentCable = currentCable + 1;
@@ -87,7 +87,7 @@ class Crane {
             }
 
             objects[cable].position.z = objects[cable].position.z + 0.06;
-            AttachEntityToEntity(createdObjects[cable], createdObjects[`lifter-cables${ currentCable - 1 }`], 0, 0.0, 0.0, objects[cable].position.z, 0.0, 0.0, 90.0, false, false, true, false, 0, false);
+            AttachEntityToEntity(createdObjects[cable], createdObjects[`lifter-cables${ currentCable - 1 }`], 0, 0.0, 0.0, objects[cable].position.z, 0.0, 0.0, 120.0, false, false, true, false, 0, false);
         } else {
             if ( currentCable != 2 ) {
                 currentCable = currentCable - 1;
@@ -115,13 +115,13 @@ class Crane {
             }
 
             objects['cabin'].position.y = objects['cabin'].position.y - 0.02;
-            AttachEntityToEntity(createdObjects['cabin'], createdObjects['frame'], 0, -0.1, objects['cabin'].position.y, 18.0, 0.0, 0.0, 0.0, false, false, true, false, 0, false);
+            AttachEntityToEntity(createdObjects['cabin'], createdObjects['frame'], 0, -0.1, objects['cabin'].position.y, 18.0, 0.0, 0.0, 30.0, false, false, true, false, 0, false);
             this.Camera(this.cameraAngle, [ 1, objects['cabin'].position.y ]);
         }
     }
 
     Right() {
-        if ( (Math.round((objects['cabin'].position.y - 0.02 + Number.EPSILON) * 100) / 100) < 5.66 ) {
+        if ( (Math.round((objects['cabin'].position.y - 0.02 + Number.EPSILON) * 100) / 100) < 7.0 ) {
             if ( !soundID['right'] ) {
                 soundID['right'] = {
                     id: GetSoundId(),
@@ -140,7 +140,7 @@ class Crane {
             }
 
             objects['cabin'].position.y = objects['cabin'].position.y + 0.02;
-            AttachEntityToEntity(createdObjects['cabin'], createdObjects['frame'], 0, -0.1, objects['cabin'].position.y, 18.0, 0.0, 0.0, 0.0, false, false, true, false, 0, false);
+            AttachEntityToEntity(createdObjects['cabin'], createdObjects['frame'], 0, -0.1, objects['cabin'].position.y, 18.0, 0.0, 0.0, 30.0, false, false, true, false, 0, false);
             this.Camera(this.cameraAngle, [ 1, objects['cabin'].position.y ]);
         }
     }
@@ -199,22 +199,23 @@ class Crane {
         Object.keys( objects.containers ).forEach(container => {
             let model = GetHashKey(objects.containers[container].model);
             let coords = this.GetPos('lifter');
-            let closestContainer = GetClosestObjectOfType(coords[0], coords[1], coords[2] - 2.8, 1.0, model);
+            let closestContainer = GetClosestVehicle(coords[0], coords[1], coords[2], 4.0, 0, 127);    // I change this line so that the crane can catch the vehicle. Original Line : let closestContainer = GetClosestObjectOfType(coords[0], coords[1], coords[2] - 2.8, 1.0, model);
 
-            if ( closestContainer && !this.container ) {
+            if ( closestContainer && closestContainer ) {                                             // I change this line so that the crane recognize the vehicle like a container
                 this.container = closestContainer;
-
-                FreezeEntityPosition(this.container, true);
+//CAMBIAR EN LO SIGUIENTE EL HEADING (121.57) EN BASE AL HEADING DE ATTACH DE LOS COMPONENTES
+SetEntityCollision(this.container, false, true);                
+FreezeEntityPosition(this.container, false);
                 AttachEntityToEntity(
                     this.container, 
                     createdObjects['lifter'], 
                     0, 
                     0.0, 
                     0.0, 
-                    -3.2, 
+                    -1.0, 
                     0.0, 
                     0.0, 
-                    90.0, 
+                    120.0,                                                                          // I change this line for the Heading of the "container" when the crane attach
                     false, 
                     false, 
                     true, 
@@ -238,19 +239,19 @@ class Crane {
     }
 
     Detach() {
-        let zValue = 5;
+        let zValue = 31.20;
         
         Object.keys( objects.containers ).forEach(( container, i ) => {
             let model = GetHashKey(objects.containers[container].model);
             let coords = this.GetPos('lifter');
-            let closestContainer = GetClosestObjectOfType(coords[0], coords[1], zValue, 1.5, model);
+            let closestContainer = GetClosestVehicle(coords[0], coords[1], zValue, 2.0,0, 127);                // I change this line so the crane can detach the vehicle. Original Line: GetClosestObjectOfType(coords[0], coords[1], zValue, 1.5, model);
 
             if ( closestContainer && this.container != closestContainer ) {
                 zValue = GetEntityCoords(closestContainer)[2] + 2.8;
             }
         });
 
-        DetachEntity(this.container);
+        DetachEntity(this.container,true);                              // I know that the problem its here when i detach the vehicle,start make rounds. Some definition of the object its not working.
         SetEntityCollision(this.container, false, true);
         FreezeEntityPosition(this.container, false);
         SetEntityDynamic(this.container, true);
@@ -264,14 +265,14 @@ class Crane {
             false
         );
 
-        PlayEntityAnim(createdObjects['lifter'], 'Dock_crane_SLD_unload', 'map_objects', 8.0, false, true, 0, 0.0, 0);
+        
 
         containerFallTick = setTick(() => {
             if ( GetEntityCoords(this.container)[2] <= zValue ) {
-                FreezeEntityPosition(this.container, true);
-                SetEntityCollision(this.container, true);
+                FreezeEntityPosition(this.container, false);
+                SetEntityCollision(this.container, true, true);
                 clearTick(containerFallTick);
-                this.container = false;
+                this.container = false;                             //Esto hace que vuelva a reconocer el auto o no!!!
             }
         });
     }
@@ -389,22 +390,10 @@ function useCrane() {
         }
 
         // Key: A
-        if ( IsControlPressed(1, 34) ) {
-            crane.Forward();
-        }
-
-        if ( IsControlJustReleased(1, 34) ) {
-            releaseSound('forward');
-        }
+        
 
         // Key: D
-        if ( IsControlPressed(1, 35) ) {
-            crane.Backwards();
-        }
-
-        if ( IsControlJustReleased(1, 35) ) {
-            releaseSound('backwards');
-        }
+        
 
         // Key: Enter
         if ( IsControlJustReleased(1, 191) ) {
@@ -463,12 +452,13 @@ RegisterCommand('usecrane', () => {
             emit('chat:addMessage', {
                 color: [255, 0, 0],
                 multiline: true,
-                args: ['Crane', `You're standing too far away!`]
+                args: ['Crane', `Estas muy lejos de la grua!`]
             });
         }
     } else {
         // Exit the crane, reset everything
         usingCrane = false;
+        
 
         // Remove the useCrane tick, crane controls will be disabled
         clearTick(useCraneTick); 
@@ -483,22 +473,22 @@ RegisterCommand('usecrane', () => {
 
         // Give the animation some time to finish
         setTimeout(() => {
-            SetFollowPedCamViewMode(1); // Reset to third person
+            SetFollowPedCamViewMode(3); // Reset to third person
             SetEntityCollision(playerPed, true, true); // Set ped collision since it seems to be gone without it(?)
             ClearPedTasks(playerPed); // Clear the ped task
             DetachEntity(playerPed, false, true); // Detach the player from the cabin
-        }, 8000);
+        }, 4000);
     }
 });
 
-// Used in development
-// setTick(() => {
-//     // Remove all the created objects by pressing E
-//     if ( IsControlJustReleased(1, 38) ) {
-//         Object.keys( createdObjects ).forEach(type => {
-//             DeleteObject(createdObjects[type]);
-//         });
-//         RopeUnloadTextures()
-// 	    DeleteRope(createdObjects['rope']);
-//     }
-// });
+//Used in development
+ //setTick(() => {
+    // Remove all the created objects by pressing E
+    // if ( IsControlJustReleased(0, 38) ) {
+       //  Object.keys( createdObjects ).forEach(type => {
+       //      DeleteObject(createdObjects[type]);
+       //  });
+       // RopeUnloadTextures()
+ 	 //   DeleteRope(createdObjects['rope']);
+    // }
+//});
